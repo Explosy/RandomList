@@ -7,7 +7,7 @@ namespace RandomList
         static void Main(string[] args)
         {
             Console.WriteLine("Добро пожаловать в программу RandomListGenerator");
-            RandomListGenerator randomListGenerator = new RandomListGenerator()
+            RandomListGenerator randomListGenerator = new RandomListGenerator();
 
         }
     }
