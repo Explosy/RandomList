@@ -1,8 +1,4 @@
 ﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
 
 namespace RandomList
 {
@@ -18,7 +14,7 @@ namespace RandomList
         public RandomListGenerator()
         {
             itemGenerator = new Random();
-            randomMaximum = 100;
+            randomMaximum = 101;
             randomMinimum = -100;
         }
         
