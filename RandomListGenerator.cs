@@ -14,7 +14,7 @@ namespace RandomList
         public RandomListGenerator()
         {
             itemGenerator = new Random();
-            randomMaximum = 100;
+            randomMaximum = 101;
             randomMinimum = -100;
         }
         
