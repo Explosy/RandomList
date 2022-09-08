@@ -6,6 +6,9 @@ using System.Net;
 
 namespace RandomList
 {
+    /// <summary>
+    /// Класс реализующий отправку POST запроса с сформированной последовательностью чисел на указанный сервер
+    /// </summary>
     internal class ListSender
     {
         public bool Send(int[] array)
@@ -17,19 +20,12 @@ namespace RandomList
             using (var streamWriter = new StreamWriter(httpWebRequest.GetRequestStream()))
             {
                 string json = JsonConvert.SerializeObject(array);
-
                 streamWriter.Write(json);
             }
 
             var httpResponse = (HttpWebResponse)httpWebRequest.GetResponse();
-            using (var streamReader = new StreamReader(httpResponse.GetResponseStream()))
-            {
-                var result = streamReader.ReadToEnd();
-                Console.WriteLine(result);
-                Console.ReadKey();
-            }
-
-            return true;
+            if (httpResponse.StatusCode == HttpStatusCode.Accepted) return true;
+            return false;
         }
     }
 }
