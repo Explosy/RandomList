@@ -32,6 +32,7 @@ namespace RandomList
                         listSorter.Sort(randomList);
                         break;
                     case '3':
+                        listSender.Send(randomList);
                         break;
                     case '0':
                         {
@@ -47,7 +48,9 @@ namespace RandomList
 
         static void PrintList(int[] array)
         {
+            Console.ForegroundColor = ConsoleColor.Green;
             Console.WriteLine("Текущая последовательность чисел:");
+            Console.ForegroundColor = ConsoleColor.White;
             foreach (int number in array)
             {
                 Console.Write(number + " ");
