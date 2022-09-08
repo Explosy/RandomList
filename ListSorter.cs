@@ -15,8 +15,10 @@ namespace RandomList
         /// <returns>Сортированный массив System.Int32[]</returns>
         public void SortList(int[] unsortedList)
         {
-            BubbleSort(unsortedList);
+            InsertSort(unsortedList);
         }
+        
+        
         /// <summary>
         /// Сортировка массива пузырьком
         /// </summary>
@@ -38,6 +40,7 @@ namespace RandomList
                 }
             }
         }
+        
         /// <summary>
         /// Сортировка массива методом вставки
         /// </summary>
@@ -59,6 +62,43 @@ namespace RandomList
                 array[index] = temp;
             }
         }
+        
+        /// <summary>
+        /// Быстрая сортировка массива
+        /// </summary>
+        /// <param name="array">Неотсортированный массив</param>
+        private int[] QuickSort(int[] array, int minIndex, int maxIndex)
+        {
+            if (minIndex >= maxIndex) return array;
 
+            int pivot = FindPivot(array, minIndex, maxIndex);
+            QuickSort(array, minIndex, pivot - 1);
+            QuickSort(array, pivot + 1, maxIndex);
+
+            return array;
+        }
+        private int FindPivot (int[] array, int minIndex, int maxIndex)
+        {
+            int pivot = minIndex -1;
+            int temp;
+            
+            for (int i = minIndex; i < maxIndex; i++)
+            {
+                if (array[i] < array[maxIndex])
+                {
+                    pivot++;
+                    temp = array[pivot];
+                    array[pivot] = array[i];
+                    array[i] = temp;
+                }
+            }
+            
+            pivot++;
+            temp = array[pivot];
+            array[pivot] = array[maxIndex];
+            array[maxIndex] = temp;
+
+            return pivot;
+        }
     }
 }
