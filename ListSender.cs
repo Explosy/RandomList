@@ -11,9 +11,20 @@ namespace RandomList
     /// </summary>
     internal class ListSender
     {
+        private string serverURL;
+        
+        public ListSender(string serverURL)
+        {
+            this.serverURL = serverURL;
+        }
+        /// <summary>
+        /// Метод отправки данных на сервер по URL, заданному при создании класса ListSender
+        /// </summary>
+        /// <param name="array"></param>
+        /// <returns>Возвращает true в случае успеха, false - в случае провала</returns>
         public bool Send(int[] array)
         {
-            var httpWebRequest = (HttpWebRequest)WebRequest.Create("http://localhost:8888/connection/");
+            var httpWebRequest = (HttpWebRequest)WebRequest.Create(serverURL);
             httpWebRequest.ContentType = "application/json";
             httpWebRequest.Method = "POST";
 
@@ -23,9 +34,16 @@ namespace RandomList
                 streamWriter.Write(json);
             }
 
-            var httpResponse = (HttpWebResponse)httpWebRequest.GetResponse();
-            if (httpResponse.StatusCode == HttpStatusCode.Accepted) return true;
-            return false;
+            try
+            {
+                var httpResponse = (HttpWebResponse)httpWebRequest.GetResponse();
+                if (httpResponse.StatusCode == HttpStatusCode.Accepted) return true;
+                return false;
+            }
+            catch (Exception exception)
+            {
+                return false;
+            }
         }
     }
 }

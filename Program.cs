@@ -1,4 +1,5 @@
 ﻿using System;
+using System.Configuration;
 
 namespace RandomList
 {
@@ -10,52 +11,55 @@ namespace RandomList
             
             RandomListGenerator randomListGenerator = new RandomListGenerator();
             ListSorter listSorter = new ListSorter();
-            ListSender listSender = new ListSender();
+            string serverURL = ConfigurationManager.AppSettings.Get("ServerURL");
+            ListSender listSender = new ListSender(serverURL);
             int[] randomList = new int[0];
             
             while (true)
             {
-                Console.Clear();
-                PrintList(randomList);
-                Console.WriteLine("Выберите нужное действие:");
-                Console.WriteLine("1 - Сформировать новую последовательность случайных чисел");
-                Console.WriteLine("2 - Отсортировать текущую последовательность");
-                Console.WriteLine("3 - Отправить последовательность на сервер");
-                Console.WriteLine("0 - Выход из программы");
+                ProgramInterface.PrintMainMenu(randomList);
                 var pressedKey = Console.ReadKey(true);
                 switch (char.ToLower(pressedKey.KeyChar))
                 {
                     case '1':
-                        randomList = randomListGenerator.GetRandomList(20);
+                        ProgramInterface.PrintGenerationMenu();
+                        int count = GetCount();
+                        randomList = randomListGenerator.GetRandomList(count);
                         break;
                     case '2':
                         listSorter.Sort(randomList);
                         break;
                     case '3':
-                        listSender.Send(randomList);
+                        bool flag = listSender.Send(randomList);
+                        ProgramInterface.PrintSendResult(flag);
                         break;
                     case '0':
                         {
-                            Console.ForegroundColor = ConsoleColor.Red;
-                            Console.WriteLine("Выполнение программы закончено");
-                            Console.ForegroundColor = ConsoleColor.White;
+                            ProgramInterface.PrintExit();
                             return;
                         }
                 }
             }
             
         }
-
-        static void PrintList(int[] array)
+        /// <summary>
+        /// Метод получения от пользователя количества необходимых чисел в последовательности
+        /// </summary>
+        /// <returns></returns>
+        private static int GetCount()
         {
-            Console.ForegroundColor = ConsoleColor.Green;
-            Console.WriteLine("Текущая последовательность чисел:");
-            Console.ForegroundColor = ConsoleColor.White;
-            foreach (int number in array)
+            while (true)
             {
-                Console.Write(number + " ");
+                string number = Console.ReadLine();
+                int count;
+                if (int.TryParse(number, out count))
+                {
+                    if (count >= 20 && count <= 100)
+                        return count;
+                }
+                Console.WriteLine("Ошибка ввода. Попробуйте еще раз");
             }
-            Console.WriteLine();
+   
         }
     }
 }
