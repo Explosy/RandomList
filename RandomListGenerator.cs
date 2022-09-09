@@ -2,6 +2,9 @@
 
 namespace RandomList
 {
+    /// <summary>
+    /// Класс реализующий генерацию последовательности случайных чисел
+    /// </summary>
     internal class RandomListGenerator
     {
         private Random itemGenerator;
@@ -34,7 +37,6 @@ namespace RandomList
         /// Генерация случайной последовательности заданной длины
         /// </summary>
         /// <param name="size">Размер выходной последовательности</param>
-        /// <returns>System.Int32[]</returns>
         public int[] GetRandomList (int size)
         {
             int[] result = new int[size];
